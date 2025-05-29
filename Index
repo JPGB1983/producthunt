@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Hunt - Servicios de Análisis de Productos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS simplificado */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3') center/cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 { font-size: 4rem; font-weight: 700; margin-bottom: 1rem; }
+        .hero p { font-size: 1.3rem; margin-bottom: 2rem; }
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 1rem;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .section { margin: 4rem 0; }
+        .section h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #2c3e50; }
+        
+        .reports-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .report-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .report-card:hover { transform: translateY(-10px); }
+        
+        .report-icon {
+            width: 80px; height: 80px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem; font-size: 2rem;
+        }
+        .report-icon.iphone { background: rgba(0, 123, 255, 0.1); color: #007bff; }
+        .report-icon.airpods { background: rgba(40, 167, 69, 0.1); color: #28a745; }
+        .report-icon.coffee { background: rgba(139, 69, 19, 0.2); color: #8B4513; }
+        
+        .report-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #2c3e50; }
+        .report-card p { color: #666; margin-bottom: 1.5rem; }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 20px;
+            cursor: pointer;
+        }
+        .close:hover { color: black; }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+        
+        .modal-body { padding: 2rem; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .product-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            background: #f9f9f9;
+        }
+        
+        .product-item h4 { color: #2c3e50; margin-bottom: 0.5rem; }
+        .price { font-size: 1.3rem; color: #28a745; font-weight: bold; margin: 0.5rem 0; }
+        .rating { color: #ffc107; margin: 0.5rem 0; }
+        .pros { color: #28a745; font-size: 0.9rem; margin: 0.5rem 0; }
+        .cons { color: #dc3545; font-size: 0.9rem; margin: 0.5rem 0; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .modal-content { width: 95%; margin: 2% auto; }
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h1>Product Hunt</h1>
+            <p>Servicios profesionales de investigación de mercado que ofrecen insights exhaustivos de productos, análisis competitivo y recomendaciones accionables para decisiones empresariales informadas.</p>
+            <a href="mailto:hola@astranovapartners.com" class="cta-button">📧 Solicitar Demo</a>
+        </div>
+    </section>
+
+    <!-- Sample Reports Section -->
+    <section class="section">
+        <div class="container">
+            <h2>Ejemplos de Nuestros Análisis</h2>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-icon iphone">📱</div>
+                    <h3>iPhone 15 Pro</h3>
+                    <p>Análisis completo del iPhone 15 Pro incluyendo especificaciones, precios y competidores</p>
+                    <button onclick="openModal('iphone')" class="cta-button">🔗 Ver Análisis</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-icon airpods">🎧</div>
+                    <h3>AirPods Pro</h3>
+                    <p>Análisis completo de Apple AirPods Pro 2ª gen vs competidores principales</p>
+                    <button onclick="openModal('airpods')" class="cta-button">🔗 Ver Análisis</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="report-icon coffee">☕</div>
+                    <h3>Cafeteras Amazon</h3>
+                    <p>Análisis completo de cafeteras populares con análisis profundo de reseñas</p>
+                    <button onclick="openModal('cafeteras')" class="cta-button">🔗 Ver Análisis</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <div id="iphoneModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('iphone')">&times;</span>
+            <div class="modal-header">
+                <h2>📱 Análisis iPhone 15 Pro</h2>
+                <p>Análisis completo de especificaciones y competencia</p>
+            </div>
+            <div class="modal-body">
+                <h3>📊 Resumen Ejecutivo</h3>
+                <p><strong>Precio:</strong> $999 - $1,599</p>
+                <p><strong>Lanzamiento:</strong> Septiembre 2023</p>
+                <p><strong>Posición:</strong> Smartphone premium flagship</p>
+                
+                <h4>🏆 Características Principales:</h4>
+                <ul>
+                    <li>Chip A17 Pro (3nm)</li>
+                    <li>Cámara principal 48MP con teleobjetivo</li>
+                    <li>Puerto USB-C</li>
+                    <li>Titanio Grade 5</li>
+                    <li>Action Button personalizable</li>
+                </ul>
+                
+                <h4>🔥 Competidores Principales:</h4>
+                <ul>
+                    <li>Samsung Galaxy S24 Ultra</li>
+                    <li>Google Pixel 8 Pro</li>
+                    <li>OnePlus 12</li>
+                </ul>
+                
+                <p><em>Este es un ejemplo de nuestro análisis detallado de productos tecnológicos.</em></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="airpodsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('airpods')">&times;</span>
+            <div class="modal-header">
+                <h2>🎧 Análisis AirPods Pro 2ª Gen</h2>
+                <p>Comparativa competitiva completa</p>
+            </div>
+            <div class="modal-body">
+                <h3>📊 Resumen Ejecutivo</h3>
+                <p><strong>Precio:</strong> $249</p>
+                <p><strong>Lanzamiento:</strong> Septiembre 2022</p>
+                <p><strong>Posición:</strong> Auriculares premium con ANC</p>
+                
+                <h4>🏆 Características Principales:</h4>
+                <ul>
+                    <li>Chip H2 para mejor ANC</li>
+                    <li>Cancelación de ruido adaptativa</li>
+                    <li>Audio espacial personalizado</li>
+                    <li>Hasta 6h batería (30h con estuche)</li>
+                </ul>
+                
+                <h4>🔥 Competidores Principales:</h4>
+                <ul>
+                    <li>Sony WF-1000XM4</li>
+                    <li>Bose QuietComfort Earbuds</li>
+                    <li>Samsung Galaxy Buds2 Pro</li>
+                </ul>
+                
+                <p><em>Este es un ejemplo de nuestro análisis comparativo de productos de audio.</em></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="cafeterasModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cafeteras')">&times;</span>
+            <div class="modal-header">
+                <h2>☕ Análisis Cafeteras Amazon</h2>
+                <p>163,316+ reseñas analizadas</p>
+            </div>
+            <div class="modal-body">
+                <h3>📊 Resumen Ejecutivo</h3>
+                <p><strong>Productos analizados:</strong> 5 cafeteras</p>
+                <p><strong>Rango de precios:</strong> $36.99 - $143.99</p>
+                <p><strong>Rating promedio:</strong> 4.4/5</p>
+                
+                <div class="product-grid">
+                    <div class="product-item">
+                        <h4>Ninja CE251 12-Cup</h4>
+                        <div class="price">$89.99 (Amazon Choice)</div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 (25,797 reseñas)</div>
+                        <div class="pros">✅ Fácil de usar, café caliente, buen precio</div>
+                        <div class="cons">❌ Limpieza frecuente, goteo ocasional</div>
+                    </div>
+                    
+                    <div class="product-item">
+                        <h4>BLACK+DECKER CM1160B</h4>
+                        <div class="price">$36.99 (Best Seller)</div>
+                        <div class="rating">⭐⭐⭐⭐☆ 4.4/5 (44,786 reseñas)</div>
+                        <div class="pros">✅ Precio excelente, fácil uso</div>
+                        <div class="cons">❌ Construcción frágil, café tibio</div>
+                    </div>
+                    
+                    <div class="product-item">
+                        <h4>Keurig K-Duo Hot & Iced</h4>
+                        <div class="price">$143.99</div>
+                        <div class="rating">⭐⭐⭐⭐☆ 4.4/5 (1,772 reseñas)</div>
+                        <div class="pros">✅ Conveniencia, tecnología moderna</div>
+                        <div class="cons">❌ Precio alto, K-Cups costosos</div>
+                    </div>
+                    
+                    <div class="product-item">
+                        <h4>Hamilton Beach 49980A</h4>
+                        <div class="price">$76.15</div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 (51,038 reseñas)</div>
+                        <div class="pros">✅ Versatilidad 2-en-1, buen precio</div>
+                        <div class="cons">❌ Lado individual débil, limpieza complicada</div>
+                    </div>
+                    
+                    <div class="product-item">
+                        <h4>Cuisinart DCC-3200P1</h4>
+                        <div class="price">$99.95 (Amazon Choice)</div>
+                        <div class="rating">⭐⭐⭐⭐☆ 4.4/5 (40,923 reseñas)</div>
+                        <div class="pros">✅ Café confiable, fácil programación</div>
+                        <div class="cons">❌ Interfaz complicada, apertura pequeña</div>
+                    </div>
+                </div>
+                
+                <p><em>Este es un ejemplo de nuestro análisis exhaustivo de productos con datos reales de Amazon.</em></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(type) {
+            document.getElementById(type + 'Modal').style.display = 'block';
+        }
+        
+        function closeModal(type) {
+            document.getElementById(type + 'Modal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
