@@ -42,7 +42,7 @@ export async function registerWaitlist(
     };
   }
 
-  const supabase = createSupabaseServerClient({ forceAdmin: true });
+  const supabase = await createSupabaseServerClient({ forceAdmin: true });
 
   const { error } = await supabase.from("waitlist_leads").insert({
     email: result.data.email.toLowerCase(),

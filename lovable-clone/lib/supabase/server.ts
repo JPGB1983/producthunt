@@ -8,8 +8,10 @@ type CreateClientOptions = {
   forceAdmin?: boolean;
 };
 
-export const createSupabaseServerClient = (options?: CreateClientOptions) => {
-  const cookieStore = cookies();
+export const createSupabaseServerClient = async (
+  options?: CreateClientOptions,
+) => {
+  const cookieStore = await cookies();
   const supabaseKey = options?.forceAdmin
     ? invariantEnv("SUPABASE_SERVICE_ROLE_KEY")
     : process.env.SUPABASE_SERVICE_ROLE_KEY ??
@@ -27,8 +29,7 @@ export const createSupabaseServerClient = (options?: CreateClientOptions) => {
           cookieStore.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
-          cookieStore.delete(name);
-          void options;
+          cookieStore.delete({ name, ...options });
         },
       },
     },
